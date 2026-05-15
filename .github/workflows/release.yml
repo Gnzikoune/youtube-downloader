@@ -6,41 +6,50 @@ on:
       - main
 
 jobs:
-  release:
-    runs-on: ${{ matrix.os }}
+  # ÉTAPE 1 : On détermine la version et on crée la Release GitHub
+  create-release:
+    runs-on: ubuntu-latest
+    outputs:
+      new_release_published: ${{ steps.semantic.outputs.new_release_published }}
+      new_release_version: ${{ steps.semantic.outputs.new_release_version }}
     permissions:
       contents: write
       pull-requests: write
-    strategy:
-      matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
-
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Renderer
-        run: npm run build:renderer
-
-      - name: Semantic Release (Ubuntu Only)
-        if: matrix.os == 'ubuntu-latest'
+      - run: npm install
+      - name: Semantic Release
+        id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
+  # ÉTAPE 2 : On fabrique les fichiers et on les ajoute à la Release
+  build-apps:
+    needs: create-release
+    if: needs.create-release.outputs.new_release_published == 'true'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm install
+      - run: npm run build:renderer
       - name: Build & Upload Electron Assets
-        # On attend un peu que le tag soit créé par Ubuntu avant de builder les autres
         run: npm run build:electron
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
