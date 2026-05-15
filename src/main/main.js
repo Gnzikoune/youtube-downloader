@@ -29,10 +29,14 @@ function createWindow() {
     backgroundColor: '#0f172a'
   });
 
-  if (process.env.NODE_ENV === 'development') {
+  if (isDev) {
     mainWindow.loadURL('http://localhost:3001');
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../renderer/dist/index.html'));
+    // On sort de src/main pour aller dans dist/ (où Vite a construit l'interface)
+    const indexPath = path.join(__dirname, '../../dist/index.html');
+    mainWindow.loadFile(indexPath).catch(err => {
+      console.error('Erreur de chargement de l\'index:', err);
+    });
   }
 
   downloader = new Downloader(mainWindow, queueManager);
