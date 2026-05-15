@@ -44,6 +44,6 @@ jobs:
       - run: npm install
       - run: npm run build:renderer
       - name: Build & Upload Electron Assets
-        run: npm run build:electron
+        run: npx electron-builder --publish always
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
