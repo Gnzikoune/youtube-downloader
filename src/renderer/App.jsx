@@ -326,7 +326,7 @@ function App() {
                 <button 
                   className="btn-primary" 
                   style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
-                  onClick={() => alert("Plugin Mobile Money (Airtel/Moov) en cours d'intégration...")}
+                  onClick={() => window.electronAPI.generateDonationLink()}
                 >
                   💳 Faire un don (Airtel / Moov)
                 </button>

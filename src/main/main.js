@@ -1,10 +1,20 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 const { autoUpdater } = require('electron-updater');
 const Store = require('electron-store');
+require('dotenv').config();
+const SingPay = require('singpay-sdk');
 
 console.log('--- YT Downloader Pro - Initialisation ---');
 const YtDlpUpdater = require('./updater/updater');
+
+// Configuration SingPay
+const singPay = new SingPay({
+  clientId: process.env.SINGPAY_CLIENT_ID,
+  clientSecret: process.env.SINGPAY_CLIENT_SECRET,
+  walletId: process.env.SINGPAY_WALLET,
+  isProduction: process.env.SINGPAY_PRODUCTION === 'true'
+});
 
 // Correction des erreurs de cache sur Windows en dev
 if (process.env.NODE_ENV === 'development') {
@@ -146,6 +156,24 @@ ipcMain.on('add-to-history', (event, item) => {
 ipcMain.on('clear-history', () => {
   store.set('history', []);
   recentHistory.clear();
+});
+
+ipcMain.on('generate-donation-link', async () => {
+  try {
+    const reference = `DON-${Date.now()}`;
+    const linkInfo = await singPay.generatePaymentLink(
+      1000, 
+      reference,
+      'https://github.com/Gnzikoune/youtube-downloader/success',
+      'https://github.com/Gnzikoune/youtube-downloader/cancel'
+    );
+    
+    if (linkInfo && linkInfo.link) {
+      shell.openExternal(linkInfo.link);
+    }
+  } catch (error) {
+    console.error('Erreur SingPay:', error);
+  }
 });
 
 ipcMain.handle('get-playlist-info', async (event, url) => {
