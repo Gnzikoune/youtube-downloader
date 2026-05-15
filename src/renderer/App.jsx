@@ -131,8 +131,8 @@ function App() {
     <>
       <div className="sidebar">
         <div className="logo">
-          <div style={{ background: 'var(--primary)', padding: '6px', borderRadius: '8px', fontSize: '0.8rem' }}>▶</div>
-          YT Downloader
+          <img src="icon.png" alt="Logo" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
+          YT Downloader Pro
         </div>
         
         <div className={`nav-item ${activeTab === 'download' ? 'active' : ''}`} onClick={() => setActiveTab('download')}>
@@ -145,6 +145,10 @@ function App() {
         
         <div className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`} onClick={() => setActiveTab('settings')}>
           ⚙️ Paramètres
+        </div>
+
+        <div className={`nav-item ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')} style={{ color: 'var(--primary)', fontWeight: 'bold' }}>
+          ❤️ À Propos
         </div>
 
         <div style={{ marginTop: 'auto' }}>
@@ -294,6 +298,38 @@ function App() {
                   <label className="label-setting" style={{ display: 'block', marginBottom: '0.8rem', color: 'var(--text-dim)', fontSize: '0.9rem' }}>Téléchargements parallèles</label>
                   <input type="number" min="1" max="5" value={settings.maxParallel} onChange={(e) => saveSettings({ maxParallel: parseInt(e.target.value) })} />
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {activeTab === 'about' && (
+          <div className="fade-in" style={{ textAlign: 'center', paddingTop: '2rem' }}>
+            <div className="glass-card" style={{ maxWidth: '500px', margin: '0 auto', padding: '3rem' }}>
+              <img src="icon.png" alt="Logo" style={{ width: '80px', height: '80px', marginBottom: '1.5rem', margin: '0 auto' }} />
+              <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>YT Downloader Pro</h1>
+              <p style={{ color: 'var(--text-dim)', marginBottom: '2rem' }}>Version 1.8.4 Stable</p>
+              
+              <div style={{ textAlign: 'left', marginBottom: '2.5rem', borderTop: '1px solid var(--border)', paddingTop: '2rem' }}>
+                <p style={{ marginBottom: '1rem' }}><strong>Éditeur :</strong> Gildas NZIKOUNÉ</p>
+                <p style={{ color: 'var(--text-dim)', lineHeight: '1.6' }}>
+                  Un outil professionnel et open-source pour télécharger vos vidéos et playlists YouTube en haute qualité. 
+                  Conçu avec ❤️ pour la communauté.
+                </p>
+              </div>
+
+              <div style={{ background: 'rgba(239, 68, 68, 0.1)', padding: '2rem', borderRadius: '1.5rem', border: '1px dashed var(--primary)' }}>
+                <h3 style={{ marginBottom: '1rem', color: 'var(--primary)' }}>Soutenir le projet</h3>
+                <p style={{ fontSize: '0.9rem', marginBottom: '1.5rem', opacity: 0.8 }}>
+                  Si vous trouvez cet outil utile, n'hésitez pas à me soutenir via Mobile Money (Gabon).
+                </p>
+                <button 
+                  className="btn-primary" 
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
+                  onClick={() => alert("Plugin Mobile Money (Airtel/Moov) en cours d'intégration...")}
+                >
+                  💳 Faire un don (Airtel / Moov)
+                </button>
               </div>
             </div>
           </div>
