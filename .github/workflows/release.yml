@@ -6,12 +6,10 @@ on:
       - main
 
 jobs:
-  # ÉTAPE 1 : On détermine la version et on crée la Release GitHub
   create-release:
     runs-on: ubuntu-latest
     outputs:
       new_release_published: ${{ steps.semantic.outputs.new_release_published }}
-      new_release_version: ${{ steps.semantic.outputs.new_release_version }}
     permissions:
       contents: write
       pull-requests: write
@@ -19,19 +17,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm install
       - name: Semantic Release
         id: semantic
+        uses: cycjimmy/semantic-release-action@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
 
-  # ÉTAPE 2 : On fabrique les fichiers et on les ajoute à la Release
   build-apps:
     needs: create-release
+    # Si une nouvelle version a été publiée OU si on veut forcer le build
     if: needs.create-release.outputs.new_release_published == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
