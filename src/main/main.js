@@ -2,6 +2,8 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const { autoUpdater } = require('electron-updater');
 const Store = require('electron-store');
+
+console.log('--- YT Downloader Pro - Initialisation ---');
 const YtDlpUpdater = require('./updater/updater');
 const Downloader = require('./downloader/downloader');
 const QueueManager = require('./downloader/queue');
