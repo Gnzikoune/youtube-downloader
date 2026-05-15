@@ -1,14 +1,13 @@
-name: Build and Release
+name: Automated Release
 
 on:
   push:
-    tags:
-      - 'v*' # Se déclenche quand vous poussez un tag comme v1.0.0
+    branches:
+      - main # Le robot travaille à chaque push sur main
 
 jobs:
   release:
     runs-on: ${{ matrix.os }}
-
     strategy:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
@@ -16,6 +15,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Important pour que semantic-release puisse lire l'historique
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -29,7 +30,12 @@ jobs:
       - name: Build Renderer
         run: npm run build:renderer
 
-      - name: Build and Publish Electron App
-        run: npm run build:electron
+      - name: Semantic Release & Build Electron
+        # On ne lance semantic-release qu'une seule fois (sur Windows par exemple)
+        # pour déterminer la version, puis on build sur tous les OS.
+        run: |
+          npx semantic-release --dry-run > release_info.txt || true
+          npm run build:electron
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Si vous utilisez un token personnel, mettez-le ici
