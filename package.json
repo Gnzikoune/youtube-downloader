@@ -59,10 +59,14 @@
       "releaseType": "release"
     },
     "win": {
-      "target": [
-        "nsis"
-      ],
-      "icon": "resources/icon.ico",
+      "target": ["nsis"],
+      "icon": "resources/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "YT Downloader Pro",
+      "artifactName": "YT-Downloader-Pro-Setup-${version}.${ext}",
       "publisherName": "Gildas NZIKOUNÉ"
     },
     "mac": {
