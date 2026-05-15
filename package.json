@@ -41,7 +41,7 @@
     "wait-on": "^9.0.10"
   },
   "build": {
-    "appId": "com.gnzikoune.ytdownloader",
+    "appId": "com.youtube.downloader.pro",
     "productName": "YT Downloader Pro",
     "directories": {
       "output": "dist"
@@ -57,13 +57,20 @@
       "target": [
         "nsis"
       ],
-      "icon": "resources/icon.ico"
+      "icon": "resources/icon.ico",
+      "publish": [
+        "github"
+      ]
     },
     "mac": {
       "target": [
         "dmg"
       ],
-      "category": "public.app-category.video"
+      "icon": "resources/icon.icns",
+      "category": "public.app-category.video",
+      "publish": [
+        "github"
+      ]
     },
     "linux": {
       "target": [
