@@ -8,6 +8,9 @@ on:
 jobs:
   release:
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+      pull-requests: write
     strategy:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
