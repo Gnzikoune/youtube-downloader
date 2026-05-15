@@ -2,6 +2,11 @@
   "name": "youtube-downloader",
   "version": "1.7.2",
   "description": "Un téléchargeur professionnel de playlists YouTube pour Windows, Mac et Linux.",
+  "author": {
+    "name": "Gildas NZIKOUNÉ",
+    "email": "votre-email@exemple.com"
+  },
+  "copyright": "Copyright © 2024 Gildas NZIKOUNÉ",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Gnzikoune/youtube-downloader.git"
@@ -17,7 +22,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
@@ -55,10 +59,9 @@
       "releaseType": "release"
     },
     "win": {
-      "target": [
-        "nsis"
-      ],
-      "icon": "resources/icon.ico"
+      "target": ["nsis"],
+      "icon": "resources/icon.ico",
+      "publisherName": "Gildas NZIKOUNÉ"
     },
     "mac": {
       "target": [
