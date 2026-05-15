@@ -68,8 +68,7 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "shortcutName": "YT Downloader Pro",
-      "artifactName": "YT-Downloader-Pro-Setup-${version}.${ext}",
-      "publisherName": "Gildas NZIKOUNÉ"
+      "artifactName": "YT-Downloader-Pro-Setup-${version}.${ext}"
     },
     "mac": {
       "target": [
