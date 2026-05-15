@@ -16,4 +16,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   addToHistory: (item) => ipcRenderer.send('add-to-history', item),
   clearHistory: () => ipcRenderer.send('clear-history'),
   getPlaylistInfo: (url) => ipcRenderer.invoke('get-playlist-info', url),
+  generateDonationLink: () => ipcRenderer.send('generate-donation-link'),
 });
