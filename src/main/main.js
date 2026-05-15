@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
+const { autoUpdater } = require('electron-updater');
 const Store = require('electron-store');
 const YtDlpUpdater = require('./updater/updater');
 const Downloader = require('./downloader/downloader');
@@ -42,6 +43,18 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
 
+  // Mise à jour de l'App (Electron)
+  autoUpdater.checkForUpdatesAndNotify();
+
+  autoUpdater.on('update-available', () => {
+    mainWindow.webContents.send('log-update', '📦 Une nouvelle version de l\'application est disponible. Téléchargement...');
+  });
+
+  autoUpdater.on('update-downloaded', () => {
+    mainWindow.webContents.send('log-update', '✅ Mise à jour téléchargée. Elle sera installée au prochain redémarrage.');
+  });
+
+  // Mise à jour du moteur (yt-dlp)
   const updater = new YtDlpUpdater(mainWindow);
   if (store.get('autoUpdate', true)) {
     updater.checkAndUIUpdate();
