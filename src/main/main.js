@@ -5,6 +5,13 @@ const Store = require('electron-store');
 
 console.log('--- YT Downloader Pro - Initialisation ---');
 const YtDlpUpdater = require('./updater/updater');
+
+// Correction des erreurs de cache sur Windows en dev
+if (process.env.NODE_ENV === 'development') {
+  const customPath = path.join(app.getPath('userData'), '../yt-downloader-pro-dev');
+  app.setPath('userData', customPath);
+}
+
 const Downloader = require('./downloader/downloader');
 const QueueManager = require('./downloader/queue');
 
