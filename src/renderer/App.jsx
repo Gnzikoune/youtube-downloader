@@ -147,7 +147,7 @@ function App() {
           ⚙️ Paramètres
         </div>
 
-        <div className={`nav-item ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')} style={{ color: 'var(--primary)', fontWeight: 'bold' }}>
+        <div className={`nav-item ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')} >
           ❤️ À Propos
         </div>
 
@@ -314,7 +314,7 @@ function App() {
                 <p style={{ marginBottom: '1rem' }}><strong>Éditeur :</strong> Gildas NZIKOUNÉ</p>
                 <p style={{ color: 'var(--text-dim)', lineHeight: '1.6' }}>
                   Un outil professionnel et open-source pour télécharger vos vidéos et playlists YouTube en haute qualité. 
-                  Conçu avec ❤️ pour la communauté.
+                  Conçu pour la communauté.
                 </p>
               </div>
 
@@ -328,7 +328,7 @@ function App() {
                   style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
                   onClick={() => window.electronAPI.generateDonationLink()}
                 >
-                  💳 Faire un don (Airtel / Moov)
+                  Faire un don (Airtel / Moov)
                 </button>
               </div>
             </div>
