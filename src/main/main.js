@@ -151,6 +151,13 @@ ipcMain.on('add-to-history', (event, item) => {
   // Anti-doublon temporaire
   recentHistory.add(historyKey);
   setTimeout(() => recentHistory.delete(historyKey), 10000); // 10 secondes de protection
+
+  // Incrémenter le compteur sur le site web (uniquement si c'est une playlist)
+  if (item.videoCount && item.videoCount > 1) {
+    fetch('https://youtube-downloader-pro.vercel.app/api/counter', { method: 'POST' }).catch(() => {
+      // On ignore l'erreur si le site est hors ligne, pour ne pas bloquer l'app
+    });
+  }
 });
 
 ipcMain.on('clear-history', () => {
