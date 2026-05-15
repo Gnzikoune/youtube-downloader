@@ -1,87 +1,75 @@
-# 🎬 YT Playlist Downloader - Pro Edition
+# 🎬 YT Downloader Pro
 
-Une application desktop moderne, ultra-rapide et robuste pour télécharger des vidéos et des playlists YouTube. Conçue avec **Electron**, **React** et propulsée par **yt-dlp**.
+![Version](https://img.shields.io/badge/version-1.8.4-red.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Platform](https://img.shields.io/badge/platform-Windows%20|%20macOS%20|%20Linux-lightgrey.svg)
 
-![UI Preview](https://img.shields.io/badge/UI-Slate_Professional-red?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Complete-green?style=for-the-badge)
-![Platform](https://img.shields.io/badge/Platform-Windows_|_Mac_|_Linux-blue?style=for-the-badge)
+**YT Downloader Pro** est une application desktop moderne et ultra-rapide pour télécharger des vidéos et des playlists YouTube en haute qualité (4K, 1080p, MP3). Conçue avec une interface premium et intuitive, elle offre une expérience utilisateur fluide sans publicité ni pistage.
+
+---
 
 ## ✨ Fonctionnalités Clés
 
-- **📦 Gestion Intelligente des Playlists** : Analysez une playlist entière, visualisez les miniatures et choisissez de tout télécharger ou de sélectionner des vidéos spécifiques.
-- **🚀 Moteur Haute Performance** : Utilise `yt-dlp` pour des vitesses de téléchargement optimales et un support de contournement des restrictions YouTube.
-- **🛠️ Fusion FFmpeg Intégrée** : Supporte la fusion automatique des flux vidéo 4K/1080p et audio haute qualité pour des fichiers MP4 parfaits.
-- **🕒 Historique Détaillé** : Gardez une trace de chaque vidéo téléchargée avec un nettoyage automatique des titres techniques.
-- **📁 Organisation Intelligente** : Les playlists sont automatiquement rangées dans des dossiers nommés, tandis que les vidéos isolées vont directement à la racine de votre dossier de téléchargement.
-- **🎨 UI Premium & Responsive** : Un design sombre (Slate), épuré et fluide qui s'adapte à toutes les tailles d'écran sur Windows, macOS et Linux.
-- **🛑 Contrôle Total** : Arrêtez instantanément n'importe quel téléchargement en cours d'un simple clic.
+- **🚀 Téléchargement de Playlists** : Copiez un lien de playlist et téléchargez-la en entier d'un seul clic.
+- **💎 Haute Qualité** : Supporte jusqu'à la 4K et le 1080p à 60fps.
+- **🎵 Extraction Audio** : Convertissez vos vidéos préférées en MP3 haute fidélité.
+- **⚡ Téléchargements Parallèles** : Gérez jusqu'à 5 téléchargements simultanés pour gagner du temps.
+- **🔄 Auto-Updater** : L'application et son moteur (yt-dlp) se mettent à jour automatiquement.
+- **📂 Gestion de l'Historique** : Retrouvez facilement vos téléchargements passés.
+- **🎨 UI Premium** : Interface sombre (Dark Mode) avec effets de glassmorphism et animations fluides.
+- **💸 Soutien SingPay** : Intégration de Mobile Money (Airtel/Moov) pour soutenir le développeur.
 
-## 🛠️ Installation & Développement
+---
 
-### Prérequis
-- [Node.js](https://nodejs.org/) (Version 18+)
-- **FFmpeg** (Placer `ffmpeg.exe` dans le dossier `resources/` pour le support de la fusion haute qualité).
+## 🛠️ Stack Technique
 
-### Installation
-1. Clonez le dépôt ou téléchargez les sources.
-2. Installez les dépendances :
-   ```bash
-   npm install
-   ```
-3. Lancez l'application en mode développement :
-   ```bash
-   npm run dev
-   ```
+- **Framework** : [Electron](https://www.electronjs.org/)
+- **Frontend** : [React](https://reactjs.org/) + [Vite](https://vitejs.dev/)
+- **Styling** : Vanilla CSS (Custom UI Components)
+- **Moteur** : [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- **Paiement** : [SingPay SDK](https://github.com/Gnzikoune/singpay-sdk)
 
-## 🏗️ Compilation (Build)
+---
 
-Pour générer l'exécutable final (`.exe`, `.dmg`, ou `.AppImage`) :
+## 🚀 Installation
+
+1. Rendez-vous sur la page [Releases](https://github.com/Gnzikoune/youtube-downloader/releases).
+2. Téléchargez l'exécutable correspondant à votre système (`.exe` pour Windows, `.dmg` pour Mac).
+3. Installez et profitez !
+
+---
+
+## 👨‍💻 Développement
+
+Si vous souhaitez contribuer ou compiler l'application vous-même :
+
 ```bash
+# Cloner le projet
+git clone https://github.com/Gnzikoune/youtube-downloader.git
+
+# Installer les dépendances
+npm install
+
+# Lancer en mode développement
+npm run dev
+
+# Compiler pour la production
 npm run build
 ```
-Les fichiers générés se trouveront dans le dossier `dist/`.
-
-## ⚙️ Configuration
-- **Dossier de destination** : Modifiable dans l'onglet *Paramètres*.
-- **Téléchargements parallèles** : Réglable de 1 à 5 tâches simultanées.
-- **Mise à jour du moteur** : L'application vérifie et met à jour automatiquement `yt-dlp` pour garantir une compatibilité permanente.
-
-## 🧰 Stack Technique
-- **Frontend** : React.js, Vite, Vanilla CSS.
-- **Backend** : Electron, Node.js.
-- **Processus** : Execa (Gestion des sous-processus yt-dlp).
-- **Stockage** : Electron-Store (Persistance des réglages et de l'historique).
 
 ---
-*Développé avec précision pour une expérience de téléchargement sans compromis.*
 
-## 🚀 Workflow de Release Automatique
-
-Ce projet utilise **semantic-release** pour automatiser la gestion des versions et les publications GitHub. Le robot analyse vos messages de commit pour décider de la nouvelle version.
-
-**Règles de commit à suivre :**
-
-- **Nouvelle fonctionnalité** :
-  ```bash
-  git commit -m "feat: ajout du support des shorts youtube"
-  ```
-  *(Le robot créera une version **1.1.0**)*
-
-- **Correction de bug** :
-  ```bash
-  git commit -m "fix: correction du bug de l'historique"
-  ```
-  *(Le robot créera une version **1.0.1**)*
-
-- **Maintenance / Documentation** :
-  ```bash
-  git commit -m "chore: mise à jour du readme"
-  ```
-  *(Le robot **ne créera pas** de nouvelle version)*
-
-- **Changement majeur (Breaking Change)** :
-  Ajoutez `BREAKING CHANGE` dans le corps du message de commit.
-  *(Le robot créera une version **2.0.0**)*
+## 🛡️ Confidentialité & Sécurité
+Toutes les données de téléchargement sont stockées localement sur votre machine. L'application ne transmet aucune information personnelle à des serveurs tiers.
 
 ---
-*Note : Les builds automatiques pour Windows, Mac et Linux se lancent à chaque push sur la branche **main**.*
+
+## ❤️ Soutenir le projet
+Si vous trouvez cet outil utile, vous pouvez me soutenir via Mobile Money directement depuis l'onglet **"À Propos"** de l'application grâce à SingPay.
+
+---
+
+## ⚖️ Licence
+Distribué sous la licence MIT. Voir `LICENSE` pour plus d'informations.
+
+**Développé par Gildas NZIKOUNÉ**
