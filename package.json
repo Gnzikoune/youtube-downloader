@@ -1,6 +1,6 @@
 {
   "name": "youtube-downloader",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "description": "Un téléchargeur professionnel de playlists YouTube pour Windows, Mac et Linux.",
   "author": {
     "name": "Gildas NZIKOUNÉ",
@@ -59,7 +59,9 @@
       "releaseType": "release"
     },
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "resources/icon.ico",
       "publisherName": "Gildas NZIKOUNÉ"
     },
