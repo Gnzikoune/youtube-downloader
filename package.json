@@ -52,16 +52,26 @@
     "appId": "com.youtube.downloader.pro",
     "productName": "YT Downloader Pro",
     "directories": {
-      "output": "dist"
+      "output": "release"
     },
+    "files": [
+      "dist/**/*",
+      "src/main/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/",
+        "to": "resources/",
+        "filter": ["**/*"]
+      }
+    ],
     "publish": {
       "provider": "github",
       "releaseType": "release"
     },
     "win": {
-      "target": [
-        "nsis"
-      ],
+      "target": ["nsis"],
       "icon": "resources/icon.ico"
     },
     "nsis": {
