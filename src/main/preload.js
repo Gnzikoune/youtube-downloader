@@ -1,0 +1,19 @@
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  downloadPlaylist: (url, options) => ipcRenderer.send('start-download', { url, options }),
+  stopDownload: (id) => ipcRenderer.send('stop-download', id),
+  onProgressUpdate: (callback) => ipcRenderer.on('progress-update', (event, ...args) => callback(...args)),
+  onLogUpdate: (callback) => ipcRenderer.on('log-update', (event, ...args) => callback(...args)),
+  onDownloadComplete: (callback) => ipcRenderer.on('download-complete', (event, ...args) => callback(...args)),
+  onDownloadError: (callback) => ipcRenderer.on('download-error', (event, ...args) => callback(...args)),
+  onVideoFinished: (callback) => ipcRenderer.on('video-finished', (event, ...args) => callback(...args)),
+  selectDirectory: () => ipcRenderer.invoke('select-directory'),
+  getSettings: () => ipcRenderer.invoke('get-settings'),
+  saveSettings: (settings) => ipcRenderer.send('save-settings', settings),
+  checkUpdate: () => ipcRenderer.send('check-update'),
+  getHistory: () => ipcRenderer.invoke('get-history'),
+  addToHistory: (item) => ipcRenderer.send('add-to-history', item),
+  clearHistory: () => ipcRenderer.send('clear-history'),
+  getPlaylistInfo: (url) => ipcRenderer.invoke('get-playlist-info', url),
+});

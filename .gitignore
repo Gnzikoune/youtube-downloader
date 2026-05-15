@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+release/
+*.exe
+*.dmg
+*.appImage
+*.zip
+
+# IDEs
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.local
+
+# Electron / Vite
+.vite/
+src/renderer/dist/
+
+# Resources (FFmpeg & local yt-dlp)
+# On ne les pousse pas car ils sont lourds et spécifiques à l'OS.
+# Le script GitHub Actions les téléchargera tout seul lors du build.
+resources/*.exe
+resources/yt-dlp
+resources/ffmpeg
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
