@@ -54,3 +54,34 @@ Les fichiers générés se trouveront dans le dossier `dist/`.
 
 ---
 *Développé avec précision pour une expérience de téléchargement sans compromis.*
+
+## 🚀 Workflow de Release Automatique
+
+Ce projet utilise **semantic-release** pour automatiser la gestion des versions et les publications GitHub. Le robot analyse vos messages de commit pour décider de la nouvelle version.
+
+**Règles de commit à suivre :**
+
+- **Nouvelle fonctionnalité** :
+  ```bash
+  git commit -m "feat: ajout du support des shorts youtube"
+  ```
+  *(Le robot créera une version **1.1.0**)*
+
+- **Correction de bug** :
+  ```bash
+  git commit -m "fix: correction du bug de l'historique"
+  ```
+  *(Le robot créera une version **1.0.1**)*
+
+- **Maintenance / Documentation** :
+  ```bash
+  git commit -m "chore: mise à jour du readme"
+  ```
+  *(Le robot **ne créera pas** de nouvelle version)*
+
+- **Changement majeur (Breaking Change)** :
+  Ajoutez `BREAKING CHANGE` dans le corps du message de commit.
+  *(Le robot créera une version **2.0.0**)*
+
+---
+*Note : Les builds automatiques pour Windows, Mac et Linux se lancent à chaque push sur la branche **main**.*
