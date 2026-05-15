@@ -50,7 +50,10 @@
     "directories": {
       "output": "dist"
     },
-    "publish": "github",
+    "publish": {
+      "provider": "github",
+      "releaseType": "release"
+    },
     "win": {
       "target": [
         "nsis"

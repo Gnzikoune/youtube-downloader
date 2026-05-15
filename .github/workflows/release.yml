@@ -26,7 +26,6 @@ jobs:
 
   build-apps:
     needs: create-release
-    # On laisse le build se faire si une version a été publiée
     if: needs.create-release.outputs.new_release_published == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
@@ -40,7 +39,6 @@ jobs:
           fetch-depth: 0
       
       - name: Fetch and Checkout Tag
-        # On force la synchronisation avec le tag créé par le premier job
         run: |
           git fetch --tags
           git checkout v${{ needs.create-release.outputs.new_release_version }}
@@ -54,8 +52,11 @@ jobs:
       - run: npm run build:renderer
       
       - name: Build & Upload Electron Assets
-        # On utilise GH_TOKEN et --publish always
-        run: npx electron-builder --publish always
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Utilisation de l'action officielle recommandée
+        uses: samuelmeuli/action-electron-builder@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # On force la publication
+          release: true
+          # On empêche la création de brouillons inutiles
+          max_attempts: 3
