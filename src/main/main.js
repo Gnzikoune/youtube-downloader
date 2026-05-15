@@ -17,6 +17,8 @@ let downloader;
 const recentHistory = new Set();
 
 function createWindow() {
+  const isDev = process.env.NODE_ENV === 'development';
+  
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
