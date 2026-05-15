@@ -1,4 +1,5 @@
 const { execa } = require('execa');
+const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
 
@@ -113,6 +114,15 @@ class Downloader {
         this.activeProcesses.delete(id);
         this.mainWindow.webContents.send('progress-update', { id, progress: 100, status: 'terminé', step: 'Fini' });
         this.mainWindow.webContents.send('download-complete', { id });
+
+        // Mise à jour du compteur global sur le site web
+        try {
+          // On appelle l'API de votre site (à remplacer par l'URL réelle une fois déployé)
+          const siteUrl = 'http://localhost:3000'; 
+          await axios.post(`${siteUrl}/api/counter`);
+        } catch (e) {
+          console.error('Erreur lors de la mise à jour des stats globales');
+        }
 
       } catch (error) {
         this.activeProcesses.delete(id);
