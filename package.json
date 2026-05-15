@@ -46,36 +46,18 @@
     "directories": {
       "output": "dist"
     },
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "Gnzikoune",
-        "repo": "youtube-downloader"
-      }
-    ],
+    "publish": "github",
     "win": {
-      "target": [
-        "nsis"
-      ],
-      "icon": "resources/icon.ico",
-      "publish": [
-        "github"
-      ]
+      "target": ["nsis"],
+      "icon": "resources/icon.ico"
     },
     "mac": {
-      "target": [
-        "dmg"
-      ],
+      "target": ["dmg"],
       "icon": "resources/icon.icns",
-      "category": "public.app-category.video",
-      "publish": [
-        "github"
-      ]
+      "category": "public.app-category.video"
     },
     "linux": {
-      "target": [
-        "AppImage"
-      ],
+      "target": ["AppImage"],
       "category": "Video"
     }
   },
