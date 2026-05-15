@@ -32,8 +32,8 @@ function createWindow() {
   if (isDev) {
     mainWindow.loadURL('http://localhost:3001');
   } else {
-    // On sort de src/main pour aller dans dist/ (où Vite a construit l'interface)
-    const indexPath = path.join(__dirname, '../../dist/index.html');
+    // Chemin précis vers le build de Vite
+    const indexPath = path.join(__dirname, '../../dist/renderer/index.html');
     mainWindow.loadFile(indexPath).catch(err => {
       console.error('Erreur de chargement de l\'index:', err);
     });
