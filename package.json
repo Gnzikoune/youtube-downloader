@@ -1,6 +1,6 @@
 {
   "name": "youtube-downloader",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Un téléchargeur professionnel de playlists YouTube pour Windows, Mac et Linux.",
   "main": "src/main/main.js",
   "scripts": {
