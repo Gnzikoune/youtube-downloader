@@ -202,6 +202,10 @@ ipcMain.handle('get-playlist-info', async (event, url) => {
   }
 });
 
+ipcMain.handle('get-app-version', () => {
+  return app.getVersion();
+});
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });

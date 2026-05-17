@@ -12,9 +12,13 @@ function App() {
   
   const [previewData, setPreviewData] = useState(null);
   const [isLoadingInfo, setIsLoadingInfo] = useState(false);
+  const [appVersion, setAppVersion] = useState('1.9.1');
 
   useEffect(() => {
     if (window.electronAPI) {
+      if (window.electronAPI.getAppVersion) {
+        window.electronAPI.getAppVersion().then(setAppVersion);
+      }
       window.electronAPI.getSettings().then(s => {
         setSettings(s);
         setCurrentFormat(s.defaultFormat);
@@ -304,28 +308,28 @@ function App() {
         )}
         
         {activeTab === 'about' && (
-          <div className="fade-in" style={{ textAlign: 'center', paddingTop: '2rem' }}>
-            <div className="glass-card" style={{ maxWidth: '500px', margin: '0 auto', padding: '3rem' }}>
-              <img src="icon.png" alt="Logo" style={{ width: '80px', height: '80px', marginBottom: '1.5rem', margin: '0 auto' }} />
-              <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>YT Downloader Pro</h1>
-              <p style={{ color: 'var(--text-dim)', marginBottom: '2rem' }}>Version 1.8.4 Stable</p>
+          <div className="fade-in" style={{ textAlign: 'center', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
+            <div className="glass-card" style={{ maxWidth: '480px', margin: '0 auto', padding: '2rem' }}>
+              <img src="icon.png" alt="Logo" style={{ width: '64px', height: '64px', marginBottom: '1rem', margin: '0 auto', objectFit: 'contain' }} />
+              <h1 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>YT Downloader Pro</h1>
+              <p style={{ color: 'var(--text-dim)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>Version {appVersion} Stable</p>
               
-              <div style={{ textAlign: 'left', marginBottom: '2.5rem', borderTop: '1px solid var(--border)', paddingTop: '2rem' }}>
-                <p style={{ marginBottom: '1rem' }}><strong>Éditeur :</strong> Gildas NZIKOUNÉ</p>
-                <p style={{ color: 'var(--text-dim)', lineHeight: '1.6' }}>
+              <div style={{ textAlign: 'left', marginBottom: '1.5rem', borderTop: '1px solid var(--border)', paddingTop: '1.25rem' }}>
+                <p style={{ marginBottom: '0.5rem', fontSize: '0.95rem' }}><strong>Éditeur :</strong> Gildas NZIKOUNÉ</p>
+                <p style={{ color: 'var(--text-dim)', lineHeight: '1.5', fontSize: '0.85rem' }}>
                   Un outil professionnel et open-source pour télécharger vos vidéos et playlists YouTube en haute qualité. 
                   Conçu pour la communauté.
                 </p>
               </div>
 
-              <div style={{ background: 'rgba(239, 68, 68, 0.1)', padding: '2rem', borderRadius: '1.5rem', border: '1px dashed var(--primary)' }}>
-                <h3 style={{ marginBottom: '1rem', color: 'var(--primary)' }}>Soutenir le projet</h3>
-                <p style={{ fontSize: '0.9rem', marginBottom: '1.5rem', opacity: 0.8 }}>
+              <div style={{ background: 'rgba(239, 68, 68, 0.05)', padding: '1.25rem', borderRadius: '1rem', border: '1px dashed var(--primary)' }}>
+                <h3 style={{ marginBottom: '0.5rem', fontSize: '1rem', color: 'var(--primary)' }}>Soutenir le projet</h3>
+                <p style={{ fontSize: '0.8rem', marginBottom: '1rem', opacity: 0.8, lineHeight: '1.4' }}>
                   Si vous trouvez cet outil utile, n'hésitez pas à me soutenir via Mobile Money (Gabon).
                 </p>
                 <button 
                   className="btn-primary" 
-                  style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem 1rem', fontSize: '0.85rem' }}
                   onClick={() => window.electronAPI.generateDonationLink()}
                 >
                   Faire un don (Airtel / Moov)

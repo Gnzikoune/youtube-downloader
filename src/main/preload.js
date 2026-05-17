@@ -17,4 +17,5 @@ contextBridge.exposeInMainWorld('electronAPI', {
   clearHistory: () => ipcRenderer.send('clear-history'),
   getPlaylistInfo: (url) => ipcRenderer.invoke('get-playlist-info', url),
   generateDonationLink: () => ipcRenderer.send('generate-donation-link'),
+  getAppVersion: () => ipcRenderer.invoke('get-app-version'),
 });
