@@ -117,11 +117,10 @@ class Downloader {
 
         // Mise à jour du compteur global sur le site web
         try {
-          // On appelle l'API de votre site (à remplacer par l'URL réelle une fois déployé)
-          const siteUrl = 'http://localhost:3000'; 
+          const siteUrl = 'https://youtube-downloader-web-pro.vercel.app'; 
           await axios.post(`${siteUrl}/api/counter`);
         } catch (e) {
-          console.error('Erreur lors de la mise à jour des stats globales');
+          console.error('Erreur lors de la mise à jour des stats globales:', e.message);
         }
 
       } catch (error) {
