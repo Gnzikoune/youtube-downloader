@@ -2,19 +2,12 @@ const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 const { autoUpdater } = require('electron-updater');
 const Store = require('electron-store');
-require('dotenv').config();
-const SingPay = require('singpay-sdk');
+
 
 console.log('--- YT Downloader Pro - Initialisation ---');
 const YtDlpUpdater = require('./updater/updater');
 
-// Configuration SingPay
-const singPay = new SingPay({
-  clientId: process.env.SINGPAY_CLIENT_ID,
-  clientSecret: process.env.SINGPAY_CLIENT_SECRET,
-  walletId: process.env.SINGPAY_WALLET,
-  isProduction: process.env.SINGPAY_PRODUCTION === 'true'
-});
+
 
 // Correction des erreurs de cache sur Windows en dev
 if (process.env.NODE_ENV === 'development') {
@@ -160,20 +153,20 @@ ipcMain.on('clear-history', () => {
 
 ipcMain.on('generate-donation-link', async () => {
   try {
-    const reference = `DON-${Date.now()}`;
-    const linkInfo = await singPay.generatePaymentLink(
-      1000, 
-      reference,
-      'https://github.com/Gnzikoune/youtube-downloader/success',
-      'https://github.com/Gnzikoune/youtube-downloader/cancel'
-    );
-    
-    if (linkInfo && linkInfo.link) {
-      shell.openExternal(linkInfo.link);
+    const axios = require('axios');
+    // Appel sécurisé au site web (Next.js backend) qui gère la création du lien de don,
+    // garantissant que le client secret de SingPay n'est jamais exposé sur la machine client.
+    const response = await axios.post('https://youtube-downloader-web-pro.vercel.app/api/donate');
+    if (response.data && response.data.url) {
+      shell.openExternal(response.data.url);
+      return;
     }
   } catch (error) {
-    console.error('Erreur SingPay:', error);
+    console.error('Erreur lors de la récupération du lien de don:', error.message);
   }
+
+  // Redirection de secours si l'API Next.js échoue ou n'est pas joignable
+  shell.openExternal('https://youtube-downloader-web-pro.vercel.app');
 });
 
 ipcMain.handle('get-playlist-info', async (event, url) => {
