@@ -1,0 +1,43 @@
+# 🖥️ YT Downloader Pro - Desktop App Guidelines
+
+Welcome, AI Coding Assistant! You are working on the official **YT Downloader Pro** Desktop application developed by **Gildas NZIKOUNÉ**.
+This file defines strict conventions, architectural guidelines, and deployment processes that you MUST follow.
+
+---
+
+## 👤 Developer & Brand Context
+- **Creator & Brand Owner**: Gildas NZIKOUNÉ
+- **Official App Name**: YT Downloader Pro
+- **GitHub Repository**: `Gnzikoune/youtube-downloader`
+- **Web App Host**: `https://youtube-downloader-web-pro.vercel.app`
+
+---
+
+## 🛠️ Strict Architecture Rules
+
+### 1. Electron Security & Process Separation
+- **No Node.js in Renderer**: Do NOT import Node.js core modules (`fs`, `path`, `child_process`, `axios`) or `electron` directly in React renderer components (`src/renderer/*`).
+- **Context Bridge Pattern**: All main-to-renderer communication MUST pass through the IPC Context Bridge.
+  - Declare safe methods in `src/main/preload.js`.
+  - Handle requests securely in `src/main/main.js` using `ipcMain.handle` or `ipcMain.on`.
+  - Consume them in the React frontend via `window.electronAPI`.
+
+### 2. Integration with Web Backend
+- **Global Playlist Counter**: When a download completes successfully in `src/main/downloader/downloader.js`, the app sends a `POST` request to `https://youtube-downloader-web-pro.vercel.app/api/counter`. Never hardcode `localhost:3000` for production builds.
+- **SingPay Donation Route**: The desktop app calls the web backend `https://youtube-downloader-web-pro.vercel.app/api/donate` to generate SingPay USSD donation links. The SingPay client secret is kept private on Vercel and is NEVER compiled inside the desktop app.
+
+### 3. App Icon & Assets
+- The production assets are configured in `package.json` under `"build"`.
+- **Windows Icon**: Located at `resources/icon.ico` (multi-resolution format generated from the logo).
+- **Mac Icon**: Pointed to `resources/icon.png` in `package.json` for automatic conversion during macOS builds.
+
+---
+
+## 🚀 Strict Git & Release Process
+
+- **CONVENTIONAL COMMITS MANDATORY**: All commits must strictly follow the Conventional Commits specification (e.g., `feat: Add Airtel USSD support`, `fix: Resolve download progress bar freeze`).
+- **Semantic Release**: Commits on the `main` branch are automatically analyzed by `semantic-release`. 
+  - Using a generic commit message like `update` or `test` will **FAIL** to trigger a package release.
+  - A `feat:` commit triggers a MINOR version bump (e.g., `1.9.0` -> `1.10.0`).
+  - A `fix:` commit triggers a PATCH version bump (e.g., `1.9.1` -> `1.9.2`).
+  - GitHub Actions will automatically compile `.exe` (Windows) and `.dmg` (macOS) binaries, and publish them to GitHub Releases upon a successful commit trigger.
