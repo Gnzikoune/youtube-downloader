@@ -63,7 +63,7 @@ class Downloader {
     }
 
     if (!isPlaylist) args.push('--no-playlist');
-    args.push(url);
+    args.push('--', url);
 
     this.queueManager.enqueue(async () => {
       this.mainWindow.webContents.send('progress-update', { id, status: 'initialisation', step: 'Prép...' });
