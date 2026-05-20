@@ -13,6 +13,7 @@ function App() {
   const [previewData, setPreviewData] = useState(null);
   const [isLoadingInfo, setIsLoadingInfo] = useState(false);
   const [appVersion, setAppVersion] = useState('1.9.1');
+  const [updateReady, setUpdateReady] = useState(false);
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -52,6 +53,12 @@ function App() {
       window.electronAPI.onLogUpdate((log) => {
         setLogs((prev) => [...prev, log].slice(-50));
       });
+
+      if (window.electronAPI.onAppUpdateDownloaded) {
+        window.electronAPI.onAppUpdateDownloaded(() => {
+          setUpdateReady(true);
+        });
+      }
     }
   }, []);
 
@@ -133,6 +140,13 @@ function App() {
 
   return (
     <>
+      {updateReady && (
+        <div style={{ background: 'var(--primary)', color: 'white', padding: '1rem', textAlign: 'center', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem' }}>
+          <span>Une nouvelle version est prête à être installée !</span>
+          <button style={{ padding: '0.5rem 1rem', background: 'white', color: 'var(--primary)', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' }} onClick={() => window.electronAPI.installAppUpdate()}>Mettre à jour maintenant</button>
+          <button style={{ padding: '0.5rem 1rem', background: 'transparent', color: 'white', border: '1px solid white', borderRadius: '4px', cursor: 'pointer' }} onClick={() => setUpdateReady(false)}>Plus tard</button>
+        </div>
+      )}
       <div className="sidebar">
         <div className="logo">
           <img src="icon.png" alt="Logo" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
@@ -149,6 +163,10 @@ function App() {
         
         <div className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`} onClick={() => setActiveTab('settings')}>
           ⚙️ Paramètres
+        </div>
+
+        <div className={`nav-item ${activeTab === 'updates' ? 'active' : ''}`} onClick={() => setActiveTab('updates')}>
+          🔄 Mises à jour
         </div>
 
         <div className={`nav-item ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')} >
@@ -241,7 +259,10 @@ function App() {
 
             {downloads.length > 0 && (
               <div style={{ marginBottom: '3rem' }}>
-                <h3 className="section-title">Tâches actives</h3>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <h3 className="section-title" style={{ marginBottom: 0 }}>Tâches actives</h3>
+                  <button className="btn-stop" onClick={() => { window.electronAPI.stopAllDownloads(); setDownloads(prev => prev.map(d => (d.status === 'téléchargement' || d.status === 'initialisation' ? { ...d, status: 'annulé', step: 'Stoppé' } : d))); }}>TOUT ARRÊTER</button>
+                </div>
                 {downloads.map((d) => (
                   <div key={d.id} className="item-card">
                     <div className="icon-box">{d.format === 'video' ? '🎬' : '🎵'}</div>
@@ -264,9 +285,7 @@ function App() {
               </div>
             )}
             
-            <div className="log-box">
-              {logs.map((log, i) => <div key={i}>{log}</div>)}
-            </div>
+            
           </div>
         )}
 
@@ -306,6 +325,30 @@ function App() {
             </div>
           </div>
         )}
+
+        {activeTab === 'updates' && (
+          <div className="fade-in">
+            <h2>Mises à jour</h2>
+            <div className="glass-card">
+              <p style={{ marginBottom: '1rem' }}>Version de l'application : <strong>{appVersion}</strong></p>
+              <button className="btn-primary" onClick={() => window.electronAPI.checkAppUpdate()}>
+                Rechercher une mise à jour
+              </button>
+              <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: 'var(--text-dim)' }}>
+                Les mises à jour se téléchargent en arrière-plan. Vous recevrez une notification lorsqu'elles seront prêtes.
+              </p>
+            </div>
+            <div className="glass-card" style={{ marginTop: '2rem' }}>
+              <h3>Moteur de téléchargement (yt-dlp)</h3>
+              <p style={{ marginBottom: '1rem', fontSize: '0.9rem', color: 'var(--text-dim)' }}>
+                Le moteur est responsable de l'extraction des vidéos. Mettez-le à jour régulièrement.
+              </p>
+              <button className="btn-primary" onClick={() => window.electronAPI.checkUpdate()}>
+                Mettre à jour le moteur
+              </button>
+            </div>
+          </div>
+        )}
         
         {activeTab === 'about' && (
           <div className="fade-in" style={{ textAlign: 'center', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
@@ -338,6 +381,10 @@ function App() {
             </div>
           </div>
         )}
+
+        <div className="log-box" style={{ marginTop: 'auto', paddingTop: '2rem' }}>
+          {logs.map((log, i) => <div key={i}>{log}</div>)}
+        </div>
       </div>
     </>
   );

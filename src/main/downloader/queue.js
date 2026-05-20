@@ -9,6 +9,13 @@ class QueueManager {
     this.maxParallel = max;
   }
 
+  clear() {
+    for (const item of this.queue) {
+      if (item.reject) item.reject(new Error('Queue cleared'));
+    }
+    this.queue = [];
+  }
+
   async enqueue(task) {
     return new Promise((resolve, reject) => {
       this.queue.push({ task, resolve, reject });

@@ -3,6 +3,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('electronAPI', {
   downloadPlaylist: (url, options) => ipcRenderer.send('start-download', { url, options }),
   stopDownload: (id) => ipcRenderer.send('stop-download', id),
+  stopAllDownloads: () => ipcRenderer.send('stop-all-downloads'),
   onProgressUpdate: (callback) => ipcRenderer.on('progress-update', (event, ...args) => callback(...args)),
   onLogUpdate: (callback) => ipcRenderer.on('log-update', (event, ...args) => callback(...args)),
   onDownloadComplete: (callback) => ipcRenderer.on('download-complete', (event, ...args) => callback(...args)),
@@ -18,4 +19,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getPlaylistInfo: (url) => ipcRenderer.invoke('get-playlist-info', url),
   generateDonationLink: () => ipcRenderer.send('generate-donation-link'),
   getAppVersion: () => ipcRenderer.invoke('get-app-version'),
+  checkAppUpdate: () => ipcRenderer.send('check-app-update'),
+  installAppUpdate: () => ipcRenderer.send('install-app-update'),
+  onAppUpdateDownloaded: (callback) => ipcRenderer.on('app-update-downloaded', (event, ...args) => callback(...args)),
 });
