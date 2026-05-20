@@ -143,6 +143,17 @@ class Downloader {
     }
     return false;
   }
+
+  stopAllDownloads() {
+    this.queueManager.clear();
+    for (const [id, subprocess] of this.activeProcesses.entries()) {
+      try {
+        subprocess.kill('SIGKILL');
+      } catch (e) {}
+      this.mainWindow.webContents.send('progress-update', { id, status: 'annulé', step: 'Stoppé' });
+    }
+    this.activeProcesses.clear();
+  }
 }
 
 module.exports = Downloader;

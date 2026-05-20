@@ -71,6 +71,7 @@ app.whenReady().then(() => {
 
   autoUpdater.on('update-downloaded', () => {
     mainWindow.webContents.send('log-update', '✅ Mise à jour téléchargée. Elle sera installée au prochain redémarrage.');
+    mainWindow.webContents.send('app-update-downloaded');
   });
 
   // Mise à jour du moteur (yt-dlp)
@@ -93,6 +94,10 @@ ipcMain.on('start-download', (event, { url, options }) => {
 
 ipcMain.on('stop-download', (event, id) => {
   downloader.stopDownload(id);
+});
+
+ipcMain.on('stop-all-downloads', () => {
+  downloader.stopAllDownloads();
 });
 
 ipcMain.handle('select-directory', async () => {
@@ -119,6 +124,17 @@ ipcMain.on('save-settings', (event, settings) => {
 ipcMain.on('check-update', () => {
   const updater = new YtDlpUpdater(mainWindow);
   updater.checkAndUIUpdate();
+});
+
+ipcMain.on('check-app-update', () => {
+  mainWindow.webContents.send('log-update', 'Recherche de mises à jour de l\'application...');
+  autoUpdater.checkForUpdatesAndNotify().catch(err => {
+    mainWindow.webContents.send('log-update', 'Vérification impossible (souvent normal en mode développement).');
+  });
+});
+
+ipcMain.on('install-app-update', () => {
+  autoUpdater.quitAndInstall();
 });
 
 ipcMain.handle('get-history', () => {
