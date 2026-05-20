@@ -179,6 +179,7 @@ ipcMain.handle('get-playlist-info', async (event, url) => {
       '--dump-single-json',
       '--flat-playlist',
       '--ignore-errors',
+      '--',
       url
     ]);
     const data = JSON.parse(stdout);
