@@ -186,8 +186,8 @@ ipcMain.on('generate-donation-link', async () => {
 });
 
 ipcMain.handle('get-playlist-info', async (event, url) => {
-  const resourcesPath = path.join(process.cwd(), 'resources');
-  const ytDlpPath = path.join(resourcesPath, process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
+  const getBinaries = require('./setup-binaries');
+  const { ytDlpPath } = getBinaries();
   
   const { execa } = require('execa');
   try {

@@ -25,9 +25,8 @@ class Downloader {
     const finalOutputPath = outputPath || path.join(process.env.USERPROFILE, 'Downloads', 'YT-Downloads');
     if (!fs.existsSync(finalOutputPath)) fs.mkdirSync(finalOutputPath, { recursive: true });
 
-    const resourcesPath = path.join(process.cwd(), 'resources');
-    const ytDlpPath = path.join(resourcesPath, process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
-    const ffmpegPath = path.join(resourcesPath, process.platform === 'win32' ? 'ffmpeg.exe' : 'ffmpeg');
+    const getBinaries = require('../setup-binaries');
+    const { ytDlpPath, ffmpegPath } = getBinaries();
     const hasFfmpeg = fs.existsSync(ffmpegPath);
 
     const outputTemplate = isPlaylist 
