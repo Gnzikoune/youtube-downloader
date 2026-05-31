@@ -8,8 +8,10 @@ class YtDlpUpdater {
     this.mainWindow = mainWindow;
     this.repo = 'yt-dlp/yt-dlp';
     this.binaryName = process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp';
-    this.resourcesPath = path.join(process.cwd(), 'resources');
-    this.binaryPath = path.join(this.resourcesPath, this.binaryName);
+    const getBinaries = require('../setup-binaries');
+    const { ytDlpPath, binDir } = getBinaries();
+    this.resourcesPath = binDir;
+    this.binaryPath = ytDlpPath;
   }
 
   async checkAndUIUpdate() {
